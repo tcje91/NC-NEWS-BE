@@ -17,9 +17,22 @@ function formatTimestamp(timeNum) {
 
 exports.formatArticles = function (articles) {
   return articles.map((article) => {
-    article.created_at = formatTimestamp(article.created_at);
-    article.username = article.created_by;
-    delete article.created_by;
-    return article;
+    const articleCopy = { ...article };
+    articleCopy.created_at = formatTimestamp(article.created_at);
+    articleCopy.username = article.created_by;
+    delete articleCopy.created_by;
+    return articleCopy;
+  });
+};
+
+exports.formatComments = function (comments, articleLookup) {
+  return comments.map((comment) => {
+    const commentCopy = { ...comment };
+    commentCopy.created_at = formatTimestamp(comment.created_at);
+    commentCopy.username = comment.created_by;
+    commentCopy.article_id = articleLookup[comment.belongs_to];
+    delete commentCopy.created_by;
+    delete commentCopy.belongs_to;
+    return commentCopy;
   });
 };
