@@ -1,0 +1,14 @@
+exports.handle404 = (err, req, res, next) => {
+  if (err.status === 404) res.status(404).send({ message: err.message });
+  else next(err);
+};
+
+exports.handle400 = (err, req, res, next) => {
+  const codes400 = ['42703'];
+  if (codes400.includes(err.code)) res.status(400).send({ message: err.toString() });
+  else next(err);
+};
+
+exports.handle500 = (err, req, res, next) => {
+  res.status(500).send({ message: 'i dont need to write this message because my server will never break hahahaahahaha' });
+};

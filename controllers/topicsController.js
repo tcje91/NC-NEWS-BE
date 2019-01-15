@@ -7,6 +7,14 @@ exports.getTopics = (req, res, next) => {
     .catch(next);
 };
 
+exports.addTopic = (req, res, next) => {
+  connection('topics')
+    .insert(req.body)
+    .returning('*')
+    .then(([topic]) => res.status(201).send({ topic }))
+    .catch(next);
+};
+
 exports.getArticlesByTopic = (req, res, next) => {
   const {
     limit, sort_by, order, p,
