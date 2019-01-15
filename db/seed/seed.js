@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const {
   userData, topicData, articleData, commentData,
 } = require('../data/index');

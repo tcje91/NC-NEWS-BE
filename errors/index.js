@@ -4,11 +4,17 @@ exports.handle404 = (err, req, res, next) => {
 };
 
 exports.handle400 = (err, req, res, next) => {
-  const codes400 = ['42703'];
+  const codes400 = ['42703', '23503'];
   if (codes400.includes(err.code)) res.status(400).send({ message: err.toString() });
   else next(err);
 };
 
 exports.handle500 = (err, req, res, next) => {
-  res.status(500).send({ message: 'i dont need to write this message because my server will never break hahahaahahaha' });
+  res.status(500).send({ message: 'i dont need to write this message because my server will never break hahahaahahaha ;_;' });
+};
+
+exports.handle422 = (err, req, res, next) => {
+  const codes422 = ['23505'];
+  if (codes422.includes(err.code)) res.status(422).send({ message: err.toString() });
+  else next(err);
 };

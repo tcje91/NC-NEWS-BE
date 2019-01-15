@@ -17,11 +17,13 @@ function formatTimestamp(timeNum) {
 
 exports.formatArticles = function (articles) {
   return articles.map((article) => {
-    const articleCopy = { ...article };
-    articleCopy.created_at = formatTimestamp(article.created_at);
-    articleCopy.username = article.created_by;
-    delete articleCopy.created_by;
-    return articleCopy;
+    // const articleCopy = { ...article };
+    // const created_at = formatTimestamp(article.created_at);
+    // articleCopy.username = article.created_by;
+    // delete articleCopy.created_by;
+    // return articleCopy;
+    const { created_by, created_at, ...others } = article;
+    return { ...others, username: created_by, created_at: formatTimestamp(created_at) };
   });
 };
 

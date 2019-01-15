@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const app = require('./app');
 
 const PORT = 9090;
