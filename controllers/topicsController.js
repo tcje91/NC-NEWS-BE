@@ -17,14 +17,14 @@ exports.addTopic = (req, res, next) => {
 
 exports.getArticlesByTopic = (req, res, next) => {
   const {
-    limit, sort_by, order, p,
+    limit = 10, sort_by = 'created_at', order = 'desc', p = 1,
   } = req.query;
   connection('articles')
     .select({ author: 'articles.username' }, 'title', 'articles.article_id', 'articles.votes', 'articles.created_at', 'topic')
     .where(req.params)
-    .limit(limit || 10)
-    .offset((p - 1) * limit || 0)
-    .orderBy(sort_by || 'created_at', order || 'desc')
+    .limit(limit)
+    .offset((p - 1) * limit)
+    .orderBy(sort_by, order)
     .leftJoin('comments', 'articles.article_id', 'comments.article_id')
     .groupBy('articles.article_id')
     .count('comments.comment_id as comment_count')

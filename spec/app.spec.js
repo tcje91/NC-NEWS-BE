@@ -37,6 +37,11 @@ describe('/api', () => {
       .post('/api/topics')
       .send({ slug: 'mitch', description: 'itsa meeee, mitch!' })
       .expect(422));
+    it('INVALID REQUEST status:405 rejects invalid requests to endpoint', () => {
+      const invalidMethods = ['patch', 'put', 'delete'];
+      const invalidRequests = invalidMethods.map(method => request[method]('/api/topics').expect(405));
+      return Promise.all(invalidRequests);
+    });
   });
   describe('/topics/:topic_id/articles', () => {
     it('GET status:200 responds with an array of articles from given topic_id with default query parameters', () => request
@@ -101,5 +106,87 @@ describe('/api', () => {
       .post('/api/topics/spaghetti/articles')
       .send({ title: 'Is mitch in another castle???', body: 'yes', username: 'rogersop' })
       .expect(400));
+    it('INVALID REQUEST status:405 rejects invalid requests to endpoint', () => {
+      const invalidMethods = ['patch', 'put', 'delete'];
+      const invalidRequests = invalidMethods.map(method => request[method]('/api/topics/mitch/articles').expect(405));
+      return Promise.all(invalidRequests);
+    });
+  });
+  describe('/articles', () => {
+    it('GET status:200 responds with an array of article objects', () => request
+      .get('/api/articles')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).to.be.an('array');
+        expect(body.articles[0]).to.have.keys('author', 'title', 'article_id', 'body', 'votes', 'comment_count', 'created_at', 'topic');
+      }));
+    it('GET status:200 accepts a limit query with default 10', () => request
+      .get('/api/articles?limit=5')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).to.have.length(5);
+      }));
+    it('GET status:200 accepts a p(page) query with default 1', () => request
+      .get('/api/articles?p=2')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles[0].title).to.equal('Am I a cat?');
+      }));
+    it('GET status:200 accepts a sort_by query with default created_at', () => request
+      .get('/api/articles?sort_by=title')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles[0].title).to.equal('Z');
+        expect(body.articles[9].title).to.equal('Does Mitch predate civilisation?');
+      }));
+    it('GET status:200 accepts an order query with default desc', () => request
+      .get('/api/articles?order=asc')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles[0].title).to.equal('Moustache');
+        expect(body.articles[9].title).to.equal('Eight pug gifs that remind me of mitch');
+      }));
+    it('INVALID REQUEST status:405 rejects invalid requests to endpoint', () => {
+      const invalidMethods = ['post', 'patch', 'put', 'delete'];
+      const invalidRequests = invalidMethods.map(method => request[method]('/api/articles').expect(405));
+      return Promise.all(invalidRequests);
+    });
+  });
+  describe('/articles/:article_id', () => {
+    it('GET status:200 reponds with an article object for article of given article_id', () => request
+      .get('/api/articles/3')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).to.have.keys('author', 'title', 'article_id', 'body', 'votes', 'comment_count', 'created_at', 'topic');
+        expect(body.article.article_id).to.equal(3);
+      }));
+    it('GET status:404 when client requests non-existent article', () => request
+      .get('/api/articles/999')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).to.equal('no such article found');
+      }));
+    it('GET status:400 when client requests invalid article_id', () => request
+      .get('/api/articles/spaghetti')
+      .expect(400));
+    it('PATCH status:200 increases vote count when sent body with positive inc_votes', () => request
+      .patch('/api/articles/1')
+      .send({ inc_votes: 5 })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article.votes).to.equal(105);
+      }));
+    it('PATCH status:200 decreases vote count when sent body with negative inc_votes', () => request
+      .patch('/api/articles/1')
+      .send({ inc_votes: -5 })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article.votes).to.equal(95);
+      }));
+    it.only('INVALID REQUEST status:405 rejects invalid requests to endpoint', () => {
+      const invalidMethods = ['post', 'put'];
+      const invalidRequests = invalidMethods.map(method => request[method]('/api/articles/1').expect(405));
+      return Promise.all(invalidRequests);
+    });
   });
 });
