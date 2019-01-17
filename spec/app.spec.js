@@ -202,12 +202,15 @@ describe('/api', () => {
       .patch('/api/articles/999')
       .send({ inc_votes: 10 })
       .expect(404));
-    it('DELETE status:204 deletes article of given id and responds with no-content', () => request
+    it.only('DELETE status:204 deletes article of given id and responds with no-content', () => request
       .delete('/api/articles/1')
       .expect(204)
-      .then(() => request
-        .get('/api/articles/1')
-        .expect(404)));
+      .then(({ body }) => {
+        expect(body).to.eql({});
+        return request
+          .get('/api/articles/1')
+          .expect(404);
+      }));
     it('DELETE status:404 if client requests delete on non-existent article', () => request
       .delete('/api/articles/999')
       .expect(404));
@@ -346,15 +349,18 @@ describe('/api', () => {
       .patch('/api/articles/1/comments/999')
       .send({ inc_votes: 10 })
       .expect(404));
-    it('DELETE status:204 deletes comment of given id and responds with no-content', () => request
+    it.only('DELETE status:204 deletes comment of given id and responds with no-content', () => request
       .delete('/api/articles/1/comments/2')
       .expect(204)
-      .then(() => request
-        .get('/api/articles/1/comments?sort_by=comment_id&order=asc')
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.comments[0].comment_id).to.equal(3);
-        })));
+      .then(({ body }) => {
+        expect(body).to.eql({});
+        return request
+          .get('/api/articles/1/comments?sort_by=comment_id&order=asc')
+          .expect(200);
+      })
+      .then(({ body }) => {
+        expect(body.comments[0].comment_id).to.equal(4);
+      }));
     it('DELETE status:404 if client requests delete on non-existent comment', () => request
       .delete('/api/articles/1/comments/999')
       .expect(404));
