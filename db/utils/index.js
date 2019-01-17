@@ -38,3 +38,5 @@ exports.formatComments = function (comments, articleLookup) {
     return commentCopy;
   });
 };
+
+exports.setSortBy = (validSortBys, sortBy) => (validSortBys.includes(sortBy) ? sortBy : 'created_at');

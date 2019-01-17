@@ -1,13 +1,14 @@
 /* eslint-disable */
 
 exports.handle404 = (err, req, res, next) => {
-  if (err.status === 404) res.status(404).send({ message: err.message });
+  if (err.status === 404 || err.code === '23503') res.status(404).send({ message: err.message });
   else next(err);
 };
 
 exports.handle400 = (err, req, res, next) => {
-  const codes400 = ['42703', '23503', '22P02'];
-  if (codes400.includes(err.code) || err.status === 400) res.status(400).send({ message: err.toString() })
+  const codes400 = ['42703', '23503', '22P02', '23502'];
+  const constraint404s = ['articles_topic_foreign', 'comments_article_id_foreign']
+  if ((codes400.includes(err.code) || err.status === 400) && !constraint404s.includes(err.constraint)) res.status(400).send({ message: err.toString() })
   else next(err);
 };
 

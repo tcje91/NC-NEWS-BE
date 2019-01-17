@@ -1,6 +1,6 @@
-# Project Title
+# NC Knews
 
-One Paragraph of project description goes here
+A Node.js API which functions as the back-end of a web forum, serving data from a PSQL database
 
 ## Getting Started
 
@@ -8,11 +8,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need to install the software and how to install them:
 
-```
-Give examples
-```
+* Node.js
+* Node Package Manager (npm)
 
 ### Installing
 

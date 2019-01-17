@@ -44,6 +44,10 @@ describe('/api', () => {
       .post('/api/topics')
       .send({ character: 'luigi' })
       .expect(400));
+    it('POST status:400 bad request if client uses malformed body (not null)', () => request
+      .post('/api/topics')
+      .send({ slug: 'mario' })
+      .expect(400));
     it('POST status:422 unprocessable entity if client attempts to add pre-existing topic slug', () => request
       .post('/api/topics')
       .send({ slug: 'mitch', description: 'itsa meeee, mitch!' })
@@ -109,14 +113,18 @@ describe('/api', () => {
       .post('/api/topics/mitch/articles')
       .send({ fruit: 'banana', isLuigi: 'false' })
       .expect(400));
+    it('POST status:400 if client uses malformed body (not null)', () => request
+      .post('/api/topics/mitch/articles')
+      .send({ title: 'Is mitch in another castle???', username: 'rogersop' })
+      .expect(400));
     it('POST status:400 if client uses non-existent username', () => request
       .post('/api/topics/mitch/articles')
       .send({ title: 'Is mitch in another castle???', body: 'yes', username: 'bowser' })
       .expect(400));
-    it('POST status:400 (?) if client attempts to post to non-existent topic', () => request
+    it('POST status:404 if client attempts to post to non-existent topic', () => request
       .post('/api/topics/spaghetti/articles')
       .send({ title: 'Is mitch in another castle???', body: 'yes', username: 'rogersop' })
-      .expect(400));
+      .expect(404));
     it('INVALID REQUEST status:405 rejects invalid method requests to endpoint', () => {
       const invalidMethods = ['patch', 'put', 'delete'];
       const invalidRequests = invalidMethods.map(method => request[method]('/api/topics/mitch/articles').expect(405));
@@ -129,7 +137,7 @@ describe('/api', () => {
       .expect(200)
       .then(({ body }) => {
         expect(body.articles).to.be.an('array');
-        expect(body.articles[0]).to.have.keys('author', 'title', 'article_id', 'body', 'votes', 'comment_count', 'created_at', 'topic');
+        expect(body.articles[0]).to.have.keys('author', 'title', 'article_id', 'votes', 'comment_count', 'created_at', 'topic');
       }));
     it('GET status:200 accepts a limit query with default 10', () => request
       .get('/api/articles?limit=5')
@@ -149,6 +157,12 @@ describe('/api', () => {
       .then(({ body }) => {
         expect(body.articles[0].title).to.equal('Z');
         expect(body.articles[9].title).to.equal('Does Mitch predate civilisation?');
+      }));
+    it('GET status:200 defaults to sort_by = created_at when query has invalid sort_by', () => request
+      .get('/api/articles?sort_by=spaghetti')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles[0].title).to.equal('Living in the shadow of a great man');
       }));
     it('GET status:200 accepts an order query with default desc', () => request
       .get('/api/articles?order=asc')
@@ -226,7 +240,7 @@ describe('/api', () => {
       .expect(200)
       .then(({ body }) => {
         expect(body.comments).to.be.an('array');
-        expect(body.comments[0]).to.have.keys('comment_id', 'body', 'username', 'article_id', 'votes', 'created_at');
+        expect(body.comments[0]).to.have.keys('comment_id', 'body', 'author', 'article_id', 'votes', 'created_at');
         expect(body.comments.every(comment => comment.article_id === 1)).to.equal(true);
       }));
     it('GET status:200 accepts a limit query with default 10', () => request
@@ -247,6 +261,12 @@ describe('/api', () => {
       .then(({ body }) => {
         expect(body.comments[0].body).to.equal('This morning, I showered for nine minutes.');
         expect(body.comments[9].body).to.equal('git push origin master');
+      }));
+    it('GET status:200 defaults to sort_by = created_at when query has invalid sort_by', () => request
+      .get('/api/articles/1/comments?sort_by=spaghetti')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments[0].body).to.equal('The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.');
       }));
     it('GET status:200 accepts an order query with default desc', () => request
       .get('/api/articles/1/comments?order=asc')
@@ -296,10 +316,10 @@ describe('/api', () => {
       .post('/api/articles/1/comments')
       .send({ body: 'what the **** did u just ****ing say about me you little *****', username: 'bowser' })
       .expect(400));
-    it('POST status:400 (?) if client attempts to post to non-existent article', () => request
+    it('POST status:404 if client attempts to post to non-existent article', () => request
       .post('/api/articles/999/comments')
-      .send({ body: 'can we get to 50 likes?????', username: 'rogersop' })
-      .expect(400));
+      .send({ body: 'this is so sad can we get to 50 likes?????', username: 'rogersop' })
+      .expect(404));
     it('INVALID REQUEST status:405 rejects invalid method requests to endpoint', () => {
       const invalidMethods = ['put', 'patch', 'delete'];
       const invalidRequests = invalidMethods.map(method => request[method]('/api/articles/1/comments').expect(405));
@@ -337,12 +357,23 @@ describe('/api', () => {
           created_at: '2016-11-22T12:36:03.000Z',
         });
       }));
+    it('PATCH status:200 responds with unupdated comment if client sends no body', () => request
+      .patch('/api/articles/1/comments/2')
+      .send({})
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comment.votes).to.equal(14);
+      }));
     it('PATCH status:400 if client uses malformed body', () => request
       .patch('/api/articles/1/comments/2')
       .send({ inc_votes: 'luigi' })
       .expect(400));
     it('PATCH status:404 if client attempts to update votes of comment on non-existent article', () => request
       .patch('/api/articles/999/comments/2')
+      .send({ inc_votes: 10 })
+      .expect(404));
+    it.only('PATCH status:404 if client attempts to update votes of comment on article to which it does not belong', () => request
+      .patch('/api/articles/1/comments/1')
       .send({ inc_votes: 10 })
       .expect(404));
     it('PATCH status:404 if client attempts to update votes of non-existent comment', () => request

@@ -1,15 +1,18 @@
 const connection = require('../db/connection');
+const { setSortBy } = require('../db/utils');
 
 exports.getArticles = (req, res, next) => {
   const {
-    limit = 10, sort_by = 'created_at', order = 'desc', p = 1,
+    limit = 10, sort_by, order = 'desc', p = 1,
   } = req.query;
+  const validSortBys = ['created_at', 'title', 'author', 'article_id', 'votes', 'topic'];
+  const valid_sort_by = setSortBy(validSortBys, sort_by);
   connection('articles')
-    .select('title', { author: 'articles.username' }, 'articles.article_id', 'articles.body', 'articles.votes', 'articles.created_at', 'topic')
+    .select('title', { author: 'articles.username' }, 'articles.article_id', 'articles.votes', 'articles.created_at', 'topic')
     .leftJoin('comments', 'articles.article_id', 'comments.article_id')
     .groupBy('articles.article_id')
     .count('comments.comment_id as comment_count')
-    .orderBy(sort_by, order)
+    .orderBy(valid_sort_by, order)
     .limit(limit)
     .offset((p - 1) * limit)
     .then(articles => res.status(200).send({ articles }))
@@ -58,12 +61,14 @@ exports.deleteArticleById = (req, res, next) => {
 
 exports.getArticleComments = (req, res, next) => {
   const {
-    limit = 10, sort_by = 'created_at', order = 'desc', p = 1,
+    limit = 10, sort_by, order = 'desc', p = 1,
   } = req.query;
+  const validSortBys = ['created_at', 'title', 'author', 'article_id', 'votes', 'topic', 'body', 'comment_id'];
+  const valid_sort_by = setSortBy(validSortBys, sort_by);
   connection('comments')
-    .select('*')
+    .select('article_id', { author: 'username' }, 'body', 'comment_id', 'created_at', 'votes')
     .where(req.params)
-    .orderBy(sort_by, order)
+    .orderBy(valid_sort_by, order)
     .limit(limit)
     .offset((p - 1) * limit)
     .then((comments) => {
@@ -82,7 +87,8 @@ exports.addCommentToArticle = (req, res, next) => {
 };
 
 exports.updateCommentVotes = (req, res, next) => {
-  const { inc_votes } = req.body;
+  let { inc_votes } = req.body;
+  if (!inc_votes) inc_votes = 0;
   if (typeof inc_votes !== 'number') return next({ status: 400, message: 'invalid vote increment' });
   return connection('comments')
     .where(req.params)

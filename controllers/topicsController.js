@@ -30,7 +30,6 @@ exports.getArticlesByTopic = (req, res, next) => {
     .count('comments.comment_id as comment_count')
     .then((articles) => {
       if (!articles.length) return Promise.reject({ status: 404, message: 'no articles found' });
-      // console.log(articles);
       return res.status(200).send({ articles });
     })
     .catch(next);
