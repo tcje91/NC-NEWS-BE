@@ -372,7 +372,7 @@ describe('/api', () => {
       .patch('/api/articles/999/comments/2')
       .send({ inc_votes: 10 })
       .expect(404));
-    it.only('PATCH status:404 if client attempts to update votes of comment on article to which it does not belong', () => request
+    it('PATCH status:404 if client attempts to update votes of comment on article to which it does not belong', () => request
       .patch('/api/articles/1/comments/1')
       .send({ inc_votes: 10 })
       .expect(404));
