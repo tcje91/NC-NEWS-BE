@@ -1,0 +1,34 @@
+{
+    "/api" : {
+        "/topics" : {
+            "GET" : "responds with an array of topic objects",
+            "POST" : "accepts body of { slug, description }, adds topic and responds with added topic object"
+        },
+        "/topics/:topic_id/articles" : {
+            "GET" : "responds with an array of article objects of specified topic_id. accepts queries for: limit, p (page), sort_by, order",
+            "POST" : "accepts body of { title, body, username }, adds article with specified topic_id and responds with article object"
+        },
+        "/articles" : {
+            "GET" : "responds with an array of article objects. accepts queries for: limit, p (page), sort_by, order"
+        },
+        "/articles/:article_id" : {
+            "GET" : "responds with article object of article with specified article_id",
+            "PATCH" : "accepts body of { inc_votes } where inc_votes is an integer, increments article vote count accordingly and responds with updated article object",
+            "DELETE" : "deletes article object of specified article_id and responds with no content"
+        },
+        "articles/:article_id/comments" : {
+            "GET" : "responds with an array of comment objects belonging to specified article. accepts queries for: limitm p (page)m sort_by, order",
+            "POST" : "accepts body of { username, body }, adds comment to specified article and responds with comment object"
+        },
+        "articles/:article_id/comments/:comment_id" : {
+            "PATCH" : "accepts body of { inc_votes } where inc_votes is an integer, increments specified comment vote count accordingly and responds with update comment object",
+            "DELETE" : "deletes comment object of specified comment_id and responds with no content"
+        },
+        "/users" : {
+            "GET" : "responds with an array of user objects"
+        },
+        "/users/:username" : {
+            "GET" : "responds with user object of specified username"
+        }
+    }
+}

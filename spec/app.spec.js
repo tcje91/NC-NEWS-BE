@@ -12,6 +12,17 @@ describe('/api', () => {
     .then(() => connection.migrate.latest())
     .then(() => connection.seed.run()));
   after(() => connection.destroy());
+  it('GET status:200 responds with a JSON describing all available API endpoints', () => request
+    .get('/api')
+    .expect(200)
+    .then(({ body }) => {
+      expect(body).to.haveOwnProperty('/api');
+    }));
+  it('INVALID REQUEST status:405 rejects invalid method requests to endpoint', () => {
+    const invalidMethods = ['post', 'patch', 'put', 'delete'];
+    const invalidRequests = invalidMethods.map(method => request[method]('/api').expect(405));
+    return Promise.all(invalidRequests);
+  });
   describe('/topics', () => {
     it('GET status:200 responds with array of topic objects', () => request
       .get('/api/topics')
@@ -160,15 +171,15 @@ describe('/api', () => {
         expect(body.article).to.have.keys('author', 'title', 'article_id', 'body', 'votes', 'comment_count', 'created_at', 'topic');
         expect(body.article.article_id).to.equal(3);
       }));
+    it('GET status:400 when client requests invalid article_id', () => request
+      .get('/api/articles/spaghetti')
+      .expect(400));
     it('GET status:404 when client requests non-existent article', () => request
       .get('/api/articles/999')
       .expect(404)
       .then(({ body }) => {
         expect(body.message).to.equal('no such article found');
       }));
-    it('GET status:400 when client requests invalid article_id', () => request
-      .get('/api/articles/spaghetti')
-      .expect(400));
     it('PATCH status:200 increases vote count when sent body with positive inc_votes', () => request
       .patch('/api/articles/1')
       .send({ inc_votes: 5 })
@@ -256,7 +267,7 @@ describe('/api', () => {
       .then(({ body }) => {
         expect(body.message).to.equal('no comments found');
       }));
-    it('POST status:201 adds a comment to article given username and body', () => request
+    it('POST status:201 adds a comment to article given username and body and responds with comment object', () => request
       .post('/api/articles/1/comments')
       .send({ username: 'rogersop', body: 'gr8 stuff m8 i r8 8/8 str8 appreci8' })
       .expect(201)
