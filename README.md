@@ -162,8 +162,13 @@ If you wish to inspect or alter the tests, they can be found in app.spec.js in t
 
 The tests check that all available endpoints respond appropriately to each valid request, and produce the appropriate errors for invalid requests.
 
+## Authors
+
+- **Tom Edwards** - [tcje91](https://github.com/tcje91)
+
 ## Acknowledgments
 
 * Mitch, for providing the inspiration for the test data
 * Ant, for dealing with my many questions
-* Jonny - he helped me one time too :)
+* Jonny - he helped me that one time too :)
+* The rest of the folks at Northcoders
