@@ -58,7 +58,7 @@ The following must be installed on your computer before you can begin developing
 
 * Node.js
 * Node Package Manager (npm)
-* git (and a github account)
+* git (you will also need a github account)
 * PostgreSQL
 
 ### Installing
@@ -130,7 +130,7 @@ You can then create and seed the development database with the command:
 npm run seed:db
 ```
 
-The test database will automatically be created (or recreated), migrated and seeded upon running the test script (see below).
+The test database will automatically be created (or recreated, if it already exists), migrated and seeded upon running the test script (see below).
 
 If you wish to manually rollback or update the database migrations, the following commands can be used:
 
@@ -161,10 +161,6 @@ npm test
 If you wish to inspect or alter the tests, they can be found in app.spec.js in the spec directory.
 
 The tests check that all available endpoints respond appropriately to each valid request, and produce the appropriate errors for invalid requests.
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Acknowledgments
 
