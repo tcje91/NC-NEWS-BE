@@ -6,7 +6,7 @@
 
 ## Endpoints
 
-The NC News API can be found hosted at the following URL: ```https://nc-news-tcje.herokuapp.com/api/```  
+The NC News API can be found hosted at the following URL: ```https://nc-news-tcje.herokuapp.com```  
 It serves the following endpoints and methods:
 
 ```/api```
@@ -144,9 +144,9 @@ To start the server listening for development purposes, use:
 ```
 npm run dev
 ```
-By default the server listens on port **9090**. This can be changed in listen.js.  
+By default the server listens on port **9090**. This can be changed in ```listen.js```.  
 
-You can then begin making requests to the server using, for example, Postman on the url: ```https://localhost:9090/api```
+You can then begin making requests to the server using, for example, Postman on the url: ```https://localhost:9090```
 
 To cease listening, input **Ctrl+C** into the terminal.
 
@@ -158,7 +158,7 @@ To run the provided tests, enter the command:
 npm test
 ```
 
-If you wish to inspect or alter the tests, they can be found in app.spec.js in the spec directory.
+If you wish to inspect or alter the tests, they can be found in ```app.spec.js``` in the ```spec``` directory.
 
 The tests check that all available endpoints respond appropriately to each valid request, and produce the appropriate errors for invalid requests.
 
