@@ -4,41 +4,41 @@
 
 ## Endpoints
 
-The NC News API can be found hosted at the following URL: https://nc-news-tcje.herokuapp.com/api/  
+The NC News API can be found hosted at the following URL: ```https://nc-news-tcje.herokuapp.com/api/```  
 It serves the following endpoints and methods:
 
-- /api
-  - GET: serves a JSON detailing all available endpoints and methods
+```/api```
+- GET: serves a JSON detailing all available endpoints and methods
 
-- /api/topics
-  - GET: responds with an array of topic objects
-  - POST: accepts body of { *slug*, *description* }, adds topic and responds with added topic object
+```/api/topics```
+- GET: responds with an array of topic objects
+- POST: accepts body of ```{ slug, description }```, adds topic and responds with added topic object
 
-- /topics/*:topic_id*/articles
-  - GET: responds with an array of article objects of specified topic_id. Accepts queries for: *limit*, *p* (page), *sort_by* and *order*
-  - POST: accepts body of { *title*, *body*, *username* }, adds article with specified *topic_id* and responds with  created article object
+```/topics/:topic_id/articles```
+- GET: responds with an array of article objects of specified topic_id. Accepts queries for: ```limit```, ```p``` (page), ```sort_by``` and ```order```
+- POST: accepts body of ```{ title, body, username }```, adds article with specified ```topic_id``` and responds with created article object
 
-- /api/articles
-  - GET: responds with an array of article objects. Accepts queries for: *limit*, *p* (page), *sort_by*, *order*
+```/api/articles```
+- GET: responds with an array of article objects. Accepts queries for: ```limit```, ```p``` (page), ```sort_by```, ```order```
 
-- /api/articles/*:article_id*
-  - GET: responds with article object of article with specified *article_id*
-  - PATCH: accepts body of { *inc_votes* } where *inc_votes* is an integer, increments article vote count accordingly and responds with updated article object
-  - DELETE: deletes article object of specified *article_id* and responds with no content
+```/api/articles/:article_id```
+- GET: responds with article object of article with specified ```article_id```
+- PATCH: accepts body of ```{ inc_votes }``` where ```inc_votes``` is an integer, increments article vote count accordingly and responds with updated article object
+  - DELETE: deletes article object of specified ```article_id``` and responds with no content
 
-- /api/articles/*:article_id*/comments
-  - GET: responds with an array of comment objects belonging to specified article. accepts queries for: *limit*, *p* (page), *sort_by* and *order*
-  - POST: accepts body of { *username*, *body* }, adds comment to specified article and responds with comment object
+```/api/articles/:article_id/comments```
+- GET: responds with an array of comment objects belonging to specified article. accepts queries for: ```limit```, ```p``` (page), ```sort_by``` and ```order```
+- POST: accepts body of ```{ username, body }```, adds comment to specified article and responds with comment object
 
-- /api/articles/*:article_id*/comments/*:comment_id*
-  - PATCH: accepts body of { *inc_votes* } where *inc_votes* is an integer, increments specified comment vote count accordingly and responds with updated comment object
-  - DELETE: deletes comment object of specified *comment_id* and responds with no content
+```/api/articles/:article_id/comments/:comment_id```
+- PATCH: accepts body of ```{ inc_votes }``` where ```inc_votes``` is an integer, increments specified comment vote count accordingly and responds with updated comment object
+- DELETE: deletes comment object of specified ```comment_id``` and responds with no content
 
-- /api/users
-  - GET: responds with an array of user objects
+```/api/users```
+- GET: responds with an array of user objects
 
-- /api/users/*:username*
-  - GET: responds with user object of specified *username*
+```/api/users/:username```
+- GET: responds with user object of specified ```username```
 
 ## Getting Started
 
@@ -91,7 +91,7 @@ npm run dev
 ```
 By default the server listens on port **9090**. This can be changed in listen.js.  
 
-You can then begin making requests to the server using, for example, Postman on the url: https://localhost:9090/api
+You can then begin making requests to the server using, for example, Postman on the url: ```https://localhost:9090/api```
 
 To cease listening, input **Ctrl+C** into the terminal.
 
