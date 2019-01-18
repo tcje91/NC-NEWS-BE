@@ -162,6 +162,26 @@ If you wish to inspect or alter the tests, they can be found in ```app.spec.js``
 
 The tests check that all available endpoints respond appropriately to each valid request, and produce the appropriate errors for invalid requests.
 
+## Deployment
+
+If you would like to deploy your own version of the API, you can use a service like [Heroku](https://www.heroku.com/).  
+To deploy your app on Heroku, you must first create an account, and install the Heroku Command Line Interface (CLI).
+
+To install the CLI, run the following command:
+```
+npm install -g heroku
+```
+
+After creating an account and installing the CLI, follow these steps to deploy your app:
+
+1. Ensure you are logged in by using `heroku login`
+2. Create and name your heroku app using `heroku create <app-name>`
+3. After commiting your latest changes using `git add` and `git commit`, you can publish your app using `git push heroku master`.
+4. Go to the heroku site and login. Choose your application and provide an `add-on` of `Heroku Postgres` which will provide you with a pre-created PSQL database.
+5. If you click on your newly created database, then go to `Settings > View Credentials` you should see a URI string. Take note of this.
+6. On the command line, type `heroku config:get DATABASE_URL`. If you're in the app's directory, and it is correctly linked as an add-on to heroku, it should display the same DB URI string.
+7. Push any remaining changes to heroku and then view your app using `heroku open`. You should now see your app hosted on heroku!
+8. If you should have issues, `heroku logs --tail` will display logs containing any errors. Use these to debug.
 ## Authors
 
 - **Tom Edwards** - [tcje91](https://github.com/tcje91)
