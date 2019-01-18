@@ -1,6 +1,8 @@
 # NC News
 
-[NC News](https://nc-news-tcje.herokuapp.com/api/) is a Node.js API which functions as the back-end of a web forum, serving data from a PSQL database.
+## Description
+
+[NC News](https://nc-news-tcje.herokuapp.com/api/) is a Node.js API which functions as the back-end of a web forum, serving data from a PSQL database. Data includes information regarding users, topics, articles and comments.
 
 ## Endpoints
 
@@ -12,33 +14,39 @@ It serves the following endpoints and methods:
 
 ```/api/topics```
 - GET: responds with an array of topic objects
-- POST: accepts body of ```{ slug, description }```, adds topic and responds with added topic object
+- POST: accepts body of ```{ slug, description }```, adds topic and responds with added topic object.  
+Both ```slug``` and ```description``` are strings.
 
 ```/topics/:topic_id/articles```
-- GET: responds with an array of article objects of specified topic_id. Accepts queries for: ```limit```, ```p``` (page), ```sort_by``` and ```order```
-- POST: accepts body of ```{ title, body, username }```, adds article with specified ```topic_id``` and responds with created article object
+- GET: responds with an array of article objects of specified topic_id. Accepts queries for: ```limit```, ```p``` (page), ```sort_by``` and ```order```.  
+```limit``` and ```p``` are integers. ```order``` can be ```asc``` (ascending) or ```desc``` (descending). ```sort_by``` can be one of: ```created_at```, ```title```, ```author```, ```article_id```, ```votes```.
+- POST: accepts body of ```{ title, body, username }```, adds article with specified ```topic_id``` and responds with created article object.  
+```title``` and ```body``` are strings. ```username``` must reference a pre-existing user.
 
 ```/api/articles```
-- GET: responds with an array of article objects. Accepts queries for: ```limit```, ```p``` (page), ```sort_by```, ```order```
+- GET: responds with an array of article objects. Accepts queries for: ```limit```, ```p``` (page), ```sort_by```, ```order```.  
+```limit``` and ```p``` are integers. ```order``` can be ```asc``` (ascending) or ```desc``` (descending). ```sort_by``` can be one of: ```created_at```, ```title```, ```author```, ```article_id```, ```votes```, ```topic```.
 
 ```/api/articles/:article_id```
 - GET: responds with article object of article with specified ```article_id```
-- PATCH: accepts body of ```{ inc_votes }``` where ```inc_votes``` is an integer, increments article vote count accordingly and responds with updated article object
-  - DELETE: deletes article object of specified ```article_id``` and responds with no content
+- PATCH: accepts body of ```{ inc_votes }``` where ```inc_votes``` is an integer, increments specified article vote count accordingly and responds with updated article object.
+- DELETE: deletes article object of specified ```article_id``` and responds with no content.
 
 ```/api/articles/:article_id/comments```
-- GET: responds with an array of comment objects belonging to specified article. accepts queries for: ```limit```, ```p``` (page), ```sort_by``` and ```order```
-- POST: accepts body of ```{ username, body }```, adds comment to specified article and responds with comment object
+- GET: responds with an array of comment objects belonging to specified article. accepts queries for: ```limit```, ```p``` (page), ```sort_by``` and ```order```.  
+```limit``` and ```p``` are integers. ```order``` can be ```asc``` (ascending) or ```desc``` (descending). ```sort_by``` can be one of: ```created_at```, ```title```, ```author```, ```votes```, ```topic```, ```body```, ```article_id```, ```comment_id```.
+- POST: accepts body of ```{ username, body }```, adds comment to specified article and responds with comment object.  
+```body``` is a string. ```username``` must reference a pre-existing user.
 
 ```/api/articles/:article_id/comments/:comment_id```
-- PATCH: accepts body of ```{ inc_votes }``` where ```inc_votes``` is an integer, increments specified comment vote count accordingly and responds with updated comment object
-- DELETE: deletes comment object of specified ```comment_id``` and responds with no content
+- PATCH: accepts body of ```{ inc_votes }``` where ```inc_votes``` is an integer, increments specified comment vote count accordingly and responds with updated comment object.
+- DELETE: deletes comment object of specified ```comment_id``` and responds with no content.
 
 ```/api/users```
-- GET: responds with an array of user objects
+- GET: responds with an array of user objects.
 
 ```/api/users/:username```
-- GET: responds with user object of specified ```username```
+- GET: responds with user object of specified ```username```.
 
 ## Getting Started
 
