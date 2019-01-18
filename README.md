@@ -175,7 +175,7 @@ describe('/topics', () => {
       }));
 });
 ```
-The `describe` block contains all the tests for a given route. Generally, each `it` block tests a particlular method (e.g. `GET`) on a particular route (e.g. `/api/topics`). This can be acheived by chaining methods onto the end of a `request`. A set of conditions, laid out in the `expect` statements, must be met in order to pass the test. An "unexpected" result will cause the test to fail, and details of the failure will be displayed in the console. In this case, the request must return a status code `200`, and the response's `body` must be an object with key `topics`, which in turn has a value of an `array` whose elements are objects with keys `slug` and `description`.
+The `describe` block contains all the tests for a given route. Generally, each `it` block tests a particlular method (e.g. `GET`) on a particular route (e.g. `/api/topics`). This can be achieved by chaining methods onto the end of a `request`. A set of conditions, laid out in the `expect` statements, must be met in order to pass the test. An "unexpected" result will cause the test to fail, and details of the failure will be displayed in the console. In this case, the request must return a status code `200`, and the response's `body` must be an object with key `topics`, which in turn has a value of an `array` whose elements are objects with keys `slug` and `description`.
 
 You can use this template to design your own tests.
 
