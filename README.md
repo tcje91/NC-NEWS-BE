@@ -54,7 +54,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-The following must be installed on your computer before you can begin developing with this projecet:
+The following must be installed on your computer before you can begin developing with this project:
 
 * Node.js
 * Node Package Manager (npm)
@@ -63,7 +63,7 @@ The following must be installed on your computer before you can begin developing
 
 ### Installing
 
-Once you have installed the prerequisites, fork this repository using the button at the top right of this page. Then, from your personal fork, click the **Clone or download** button, also near the top right, and copy the link to your repository.
+Once you have installed the prerequisites, **Fork** this repository using the button at the top right of this page. Then, from your personal fork, click the **Clone or download** button, also near the top right, and copy the link to your repository.
 
 With that done, navigate in your terminal to where you would like to install the project, then run the following command to clone a copy to your local machine:
 
@@ -122,7 +122,7 @@ module.exports = {
   },
 };
 ```
-Make sure to change the ```username``` and ```password``` keys in both ```test``` and ```development``` to be your PSQL username and password.  
+Make sure to change the values of the ```username``` and ```password``` keys in both ```test``` and ```development``` to be your own PSQL username and password.  
 
 You can then create and seed the development database with the command:
 
@@ -130,7 +130,7 @@ You can then create and seed the development database with the command:
 npm run seed:db
 ```
 
-The test database will automatically be created (or recreated, if it already exists), migrated and seeded upon running the test script (see below).
+The test database will automatically be created (or recreated, if it already exists), migrated and seeded upon running the `test` script (see below).
 
 If you wish to manually rollback or update the database migrations, the following commands can be used:
 
@@ -175,7 +175,7 @@ describe('/topics', () => {
       }));
 });
 ```
-The `describe` block contains all the tests for a given route. Generally, each `it` block tests a particlular method (e.g. `GET`) on a particular route (e.g. `/api/topics`). This can be achieved by chaining methods onto the end of a `request`. A set of conditions, laid out in the `expect` statements, must be met in order to pass the test. An "unexpected" result will cause the test to fail, and details of the failure will be displayed in the console. In this case, the request must return a status code `200`, and the response's `body` must be an object with key `topics`, which in turn has a value of an `array` whose elements are objects with keys `slug` and `description`.
+The `describe` block contains all the tests for a given route. Generally, each `it` block tests a particlular method (e.g. `GET`) on a particular route (e.g. `/api/topics`). This can be achieved by chaining methods onto the end of a `request`. A set of conditions, laid out in the `expect` statements, must be met in order to pass the test. An "unexpected" result will cause the test to fail, and details of the failure will be logged in the console. In this case, the request must return a status code `200`, and the response's `body` must be an object with key `topics`, which in turn has a value of an `array` whose elements are objects with keys `slug` and `description`.
 
 You can use this template to design your own tests.
 
@@ -194,10 +194,10 @@ After creating an account and installing the CLI, follow these steps to deploy y
 1. Ensure you are logged in by using `heroku login`
 2. Create and name your heroku app using `heroku create <app-name>`
 3. After commiting your latest changes using `git add` and `git commit`, you can publish your app using `git push heroku master`.
-4. Go to the heroku site and login. Choose your application and provide an `add-on` of `Heroku Postgres` which will provide you with a pre-created PSQL database.
+4. Go to the Heroku site and login. Choose your application and provide an `add-on` of `Heroku Postgres` which will provide you with a pre-created PSQL database.
 5. If you click on your newly created database, then go to `Settings > View Credentials` you should see a URI string. Take note of this.
-6. On the command line, type `heroku config:get DATABASE_URL`. If you're in the app's directory, and it is correctly linked as an add-on to heroku, it should display the same DB URI string.
-7. Push any remaining changes to heroku and then view your app using `heroku open`. You should now see your app hosted on heroku!
+6. On the command line, type `heroku config:get DATABASE_URL`. If you're in the app's directory, and it is correctly linked as an add-on to Heroku, it should display the same DB URI string.
+7. Push any remaining changes to Heroku and then view your app using `heroku open`. You should now see your app hosted on Heroku!
 8. If you should have issues, `heroku logs --tail` will display logs containing any errors. Use these to debug.
 ## Authors
 
