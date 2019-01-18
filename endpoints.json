@@ -16,12 +16,12 @@
             "PATCH" : "accepts body of { inc_votes } where inc_votes is an integer, increments article vote count accordingly and responds with updated article object",
             "DELETE" : "deletes article object of specified article_id and responds with no content"
         },
-        "articles/:article_id/comments" : {
-            "GET" : "responds with an array of comment objects belonging to specified article. accepts queries for: limitm p (page)m sort_by, order",
+        "/articles/:article_id/comments" : {
+            "GET" : "responds with an array of comment objects belonging to specified article. accepts queries for: limit, p (page), sort_by, order",
             "POST" : "accepts body of { username, body }, adds comment to specified article and responds with comment object"
         },
-        "articles/:article_id/comments/:comment_id" : {
-            "PATCH" : "accepts body of { inc_votes } where inc_votes is an integer, increments specified comment vote count accordingly and responds with update comment object",
+        "/articles/:article_id/comments/:comment_id" : {
+            "PATCH" : "accepts body of { inc_votes } where inc_votes is an integer, increments specified comment vote count accordingly and responds with updated comment object",
             "DELETE" : "deletes comment object of specified comment_id and responds with no content"
         },
         "/users" : {
