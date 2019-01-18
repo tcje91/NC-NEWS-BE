@@ -76,6 +76,53 @@ Now you must install the project dependencies using:
 ```
 npm install
 ```
+Next, you will need to create a file that stores the config information needed to access your databases. In your project folder, create a file named ```knexfile.js``` and fill it with the following:
+
+```
+const { DB_URL } = process.env;
+
+module.exports = {
+  development: {
+    client: 'pg',
+    connection: {
+      username: 'username',
+      password: 'password',
+      database: 'nc_news',
+    },
+    seeds: {
+      directory: './db/seed',
+    },
+    migrations: {
+      directory: './db/migrations',
+    },
+  },
+  test: {
+    client: 'pg',
+    connection: {
+      username: 'username',
+      password: 'password',
+      database: 'nc_news_test',
+    },
+    seeds: {
+      directory: './db/seed',
+    },
+    migrations: {
+      directory: './db/migrations',
+    },
+  },
+  production: {
+    client: 'pg',
+    connection: `${DB_URL}?ssl=true`,
+    migrations: {
+      directory: './db/migrations',
+    },
+    seeds: {
+      directory: './db/seed',
+    },
+  },
+};
+```
+Make sure to change the ```username``` and ```password``` keys in both ```test``` and ```development``` to be your PSQL username and password.  
 
 You can then create and seed the development database with the command:
 
@@ -83,7 +130,7 @@ You can then create and seed the development database with the command:
 npm run seed:db
 ```
 
-The test database will automatically be re-created, migrated and seeded upon running the test command (see below).
+The test database will automatically be created (or recreated), migrated and seeded upon running the test script (see below).
 
 If you wish to manually rollback or update the database migrations, the following commands can be used:
 
@@ -123,4 +170,4 @@ Add additional notes about how to deploy this on a live system
 
 * Mitch, for providing the inspiration for the test data
 * Ant, for dealing with my many questions
-* Jonny - he helped me one time too
+* Jonny - he helped me one time too :)
