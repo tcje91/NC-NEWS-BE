@@ -6,7 +6,7 @@
 
 The NC News API can be found hosted at the following URL: https://nc-news-tcje.herokuapp.com
 
-The front end repository associated with this project: https://github.com/tcje91/NC-NEWS-FE
+The front end repository associated with this project: https://github.com/tcje91/NC-NEWS-FE  
 The hosted front end: https://gallant-allen-1318fc.netlify.com/
 
 ## Endpoints
