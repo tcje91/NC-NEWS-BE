@@ -1,13 +1,17 @@
-# NC News
+# NC News - Back End
 
 ## Description
 
 [NC News](https://nc-news-tcje.herokuapp.com/api/) is a Node.js API which functions as the back-end of a web forum, serving data from a PSQL database. Data includes information regarding users, topics, articles and comments.
 
+The NC News API can be found hosted at the following URL: https://nc-news-tcje.herokuapp.com
+
+The front end repository associated with this project: https://github.com/tcje91/NC-NEWS-FE
+The hosted front end: https://gallant-allen-1318fc.netlify.com/
+
 ## Endpoints
 
-The NC News API can be found hosted at the following URL: ```https://nc-news-tcje.herokuapp.com```  
-It serves the following endpoints and methods:
+The NC News API serves the following endpoints and methods:
 
 ```/api```
 - GET: serves a JSON detailing all available endpoints and methods
@@ -148,7 +152,7 @@ By default the server listens on port **9090**. This can be changed in ```listen
 
 You can then begin making requests to the server using, for example, Postman on the url: ```https://localhost:9090```
 
-To cease listening, input **Ctrl+C** into the terminal.
+To cease listening, input **Ctrl+C**/**Cmd+C** into the terminal.
 
 ## Running the tests
 
